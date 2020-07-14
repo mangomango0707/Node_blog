@@ -32,7 +32,12 @@ admin.post('/login', async(req, res) => {
         if (isValid) {
             // 将用户信息存储在session中
             req.session.username = user.username;
-            res.send('登录成功');
+            // res.send('登录成功');
+
+            // 将用户信息保存到app的local变量共全局使用
+            req.app.locals.userInfo = user;
+            // 重定向到用户列表页面
+            res.redirect('/admin/user');
         } else {
             res.status(400).render('admin/error', { msg: '邮件地址或者密码错误！' });
         }
@@ -44,7 +49,7 @@ admin.post('/login', async(req, res) => {
 // 用户列表页面
 admin.get('/user', (req, res) => {
     // 渲染用户列表页面模板
-    res.render('admin/user', { msg: req.session.username });
+    res.render('admin/user');
 });
 
 // 暴露路由对象，为路由匹配一级请求路径

@@ -18,7 +18,11 @@ require('./model/connect');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // 拦截请求交给session处理，配置session
-app.use(session({ secret: 'secret key' }));
+app.use(session({
+    resave: false, //添加 resave 选项
+    saveUninitialized: true, //添加 saveUninitialized 选项
+    secret: 'secret key'
+}));
 
 // 模板所在位置
 app.set('views', path.join(__dirname, 'views'));
@@ -33,6 +37,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 导入路由对象（引入路由模块）
 const home = require('./route/home');
 const admin = require('./route/admin');
+
+// 实现登陆拦截：拦截请求，判断用户的登录状态
+app.use('/admin', (req, res, next) => {
+    // 判断用户访问的是否是登录页面
+    // 判断用户的登录状态：利用res.session.username判断
+    if (req.url != '/login' && !req.session.username) {
+        // 重定向到登录页面
+        res.redirect('/admin/login');
+    } else {
+        // 将请求放行
+        next();
+    }
+})
 
 // 为路由对象匹配一级请求路径
 app.use('/home', home);
