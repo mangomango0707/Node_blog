@@ -2,9 +2,23 @@
 const express = require('express');
 // 引入路径处理模块
 const path = require('path');
+// 引入处理post请求参数的body-parser
+const bodyParser = require('body-parser');
+// 导入express-session模块实现session功能
+const session = require('express-session');
 
 // 创建网站服务器
 const app = express();
+
+// 数据库连接
+require('./model/connect');
+// require('./model/user');
+
+// 处理post请求参数
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// 拦截请求交给session处理，配置session
+app.use(session({ secret: 'secret key' }));
 
 // 模板所在位置
 app.set('views', path.join(__dirname, 'views'));

@@ -1,0 +1,10 @@
+{{extend './common/layout.art'}} {{block 'main'}}
+<p class="bg-danger error">{{msg}}</p>
+{{/block}} {{block 'script'}}
+<!-- // 设置一个定时器控制若登录错误3秒后返回登录页面 -->
+<script>
+    setTimeout(function() {
+        location.href = '/admin/login';
+    }, 3000)
+</script>
+{{/block}}
