@@ -39,21 +39,25 @@ const home = require('./route/home');
 const admin = require('./route/admin');
 
 // 实现登陆拦截：拦截请求，判断用户的登录状态
-app.use('/admin', (req, res, next) => {
-    // 判断用户访问的是否是登录页面
-    // 判断用户的登录状态：利用res.session.username判断
-    if (req.url != '/login' && !req.session.username) {
-        // 重定向到登录页面
-        res.redirect('/admin/login');
-    } else {
-        // 将请求放行
-        next();
-    }
-})
+app.use('/admin', require('./middleware/loginGuard'))
 
 // 为路由对象匹配一级请求路径
 app.use('/home', home);
 app.use('/admin', admin);
+
+// 错误处理中间件
+app.use((err, req, res, next) => {
+    // 把next中的参数err转化为对象
+    const result = JSON.parse(err);
+    // 拼接参数
+    let params = [];
+    for (let attr in result) {
+        if (attr != 'path') {
+            params.push(attr + '=' + result[attr]);
+        }
+    }
+    res.redirect(`${result.path}?${params.join('&')}`);
+})
 
 // 监听端口，80端口
 app.listen(80);
