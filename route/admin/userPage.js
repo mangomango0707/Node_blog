@@ -3,6 +3,8 @@ const { User, validateUser } = require('../../model/user');
 
 module.exports = async(req, res) => {
 
+    // 标识：表示当前访问的是用户管理页面，用来控制侧边栏用户管理和文章管理的切换
+    req.app.locals.currentLink = 'user';
 
     // 接受客户端传递过来的当前页码
     let page = req.query.page;

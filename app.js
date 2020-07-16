@@ -31,12 +31,20 @@ app.set('view engine', 'art');
 // 渲染art模板时，所使用的模板引擎
 app.engine('art', require('express-art-template'));
 
+// 导入art-template来处理时间格式函数
+const template = require('art-template');
+// 导入dateformat第三方模块
+const dateFormat = require('dateformat');
+
 // 开放静态资源文件(绝对路径)
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 导入路由对象（引入路由模块）
 const home = require('./route/home');
 const admin = require('./route/admin');
+
+// 向模板内部导入dateFormat变量
+template.defaults.imports.dateFormat = dateFormat;
 
 // 实现登陆拦截：拦截请求，判断用户的登录状态
 app.use('/admin', require('./middleware/loginGuard'))

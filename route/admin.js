@@ -29,5 +29,20 @@ admin.post('/user-modify', require('./admin/user-modify'))
 // 删除用户
 admin.get('/delete', require('./admin/user-delete'))
 
+// 文章列表页面
+admin.get('/article', require('./admin/article'));
+
+// 渲染文章编辑页面
+admin.get('/article-edit', require('./admin/article-edit'));
+
+// 文章编辑
+admin.post('/article-edit', require('./admin/article-edit-fn'));
+
+// 添加文章
+admin.post('/article-add', require('./admin/article-add'));
+
+// 删除文章
+admin.get('/delete-article', require('./admin/article-delete'))
+
 // 暴露路由对象，为路由匹配一级请求路径
 module.exports = admin;

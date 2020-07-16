@@ -1,5 +1,5 @@
 // 导入用户集合构造函数
-const { User, validateUser } = require('../../model/user');
+const { User } = require('../../model/user');
 // 导入bcrypt模块对密码进行加密
 const bcrypt = require('bcrypt');
 

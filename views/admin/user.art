@@ -92,6 +92,7 @@
     $('.delete').on('click', function() {
         // 获取用户id
         var id = $(this).attr('data-id');
+        console.log(id);
         // 将要删除的用户id存储在隐藏域中
         $('#deleteUserId').val(id);
     })
